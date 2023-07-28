@@ -5,10 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Payment")
+@Table(name = "payment")
 public class Payment {
 	
 	@Id
@@ -24,14 +25,26 @@ public class Payment {
 		
 	}
 	
+	@OneToOne(mappedBy = "payment")
+	private Users users;
+	
+	
 	public Payment(Long id_payment, String method) {
 		super();
 		this.id_payment = id_payment;
 		this.method = method;
 	}
 
-	public Long getId_payment() {
+	public long getId_payment() {
 		return id_payment;
+	}
+
+	public Users getUsers() {
+		return users;
+	}
+
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 
 	public void setId_payment(Long id_payment) {

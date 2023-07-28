@@ -6,17 +6,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="Products")
+@Table(name ="products")
 public class Products {
 	//Attributes
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_Products", unique = true, nullable = false)
+	@Column(name = "id_products", unique = true, nullable = false)
 	private Long id_Products;
 	
 	@Column(nullable = false)
@@ -35,12 +38,20 @@ public class Products {
 		
 	}
 	
-	//Automaticos eliminamos
-	
 	//Definir relaciones
-	@OneToOne
-	@JoinColumn(name = "Category_id_category", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "category_id_category", nullable = false)
 	private CategoryProduct categoryProduct;
+	
+	@ManyToMany
+	@JoinTable(
+			name="products_has_users",
+			joinColumns = @JoinColumn(name = "products_id_products"),
+			inverseJoinColumns = @JoinColumn(name = "users_id_users")
+	)
+	
+	
+	
 	
 	public CategoryProduct getCategoryProduct() {
 		return categoryProduct;

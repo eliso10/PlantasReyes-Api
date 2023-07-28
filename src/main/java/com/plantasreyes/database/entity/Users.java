@@ -12,11 +12,11 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
 @Entity
-@Table(name = "User")
+@Table(name = "users")
 public class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_Users", unique = true, nullable = false)
+	@Column(name="id_users", unique = true, nullable = false)
 	private Long id_Users;
 	@Column(nullable=false)
 	private String name;
@@ -38,17 +38,17 @@ public class Users {
 
 	@ManyToMany
 	@JoinTable(
-			name="Products_has_Users",
-			joinColumns = @JoinColumn(name = "Users_id_Users"),
-			inverseJoinColumns = @JoinColumn(name = "Products_id_Products")
+			name="products_has_users",
+			joinColumns = @JoinColumn(name = "users_id_users"),
+			inverseJoinColumns = @JoinColumn(name = "products_id_products")
 	)
 	
 	@OneToOne
-	@JoinColumn(name = "Address_id_address", nullable = false)
+	@JoinColumn(name = "address_id_address", nullable = false)
 	private Address address;
 	
 	@OneToOne
-	@JoinColumn(name = "Payment_id_payment", nullable = false)
+	@JoinColumn(name = "payment_id_payment", nullable = false)
 	private Payment payment;
 	
 	public Address getAddress() {

@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.plantasreyes.database.entity.Address;
+import com.plantasreyes.database.entity.Payment;
 import com.plantasreyes.database.entity.Users;
+import com.plantasreyes.database.service.AddressService;
+import com.plantasreyes.database.service.PaymentService;
 import com.plantasreyes.database.service.UsersService;
 @RequestMapping(path="/database/users")
 @RestController
@@ -20,10 +24,14 @@ import com.plantasreyes.database.service.UsersService;
 public class UsersController{
 
 	@Autowired
-	private final UsersService usersService;
+	private UsersService usersService;
+	private PaymentService paymentService;
+	private AddressService addressService;
 	
-	public UsersController(UsersService usersService) {
+	public UsersController(UsersService usersService, PaymentService paymentService, AddressService addressService) {
 		this.usersService = usersService;
+		this.paymentService = paymentService;
+		this.addressService = addressService;
 	}
 	
 	//GetAll
@@ -37,23 +45,24 @@ public class UsersController{
 	public Users getUsersById(@PathVariable Long id) {
 		return usersService.getUsersById(id);
 	}
-	
+	/*
 	//Post
 	@PostMapping
-	public Users createUsers (@RequestBody Users users) {
+	public Users createUsers(@RequestBody Users users) {
 		return usersService.createUsers(users);
 	}
-	/*
+	*/
 	@PostMapping
-
 	public Users createUser(@RequestBody Users user) {
 
 		// get genre from the database and make a match
-
 	
-		Payment persistentGenre = paymentService.getGenreById(user.getPayment().getPayment_id());
-		user.setGenre(persistentGenre);
-
+		Payment persistentPayment = paymentService.getPaymentId(user.getPayment().getId_payment());
+		user.setPayment(persistentPayment);
+	/*	
+		Address persistentAddress = addressService.getAddressById(user.getAddress().getId());
+		user.setAddress(persistentAddress);
+		
 		// CategoryProducts is the same as genre, but for a list
 		List<CategoryProduct> persistentCategoryProducts = new ArrayList<>();
 		// Add to the list each author found by their ID
@@ -61,13 +70,11 @@ public class UsersController{
 			CategoryProduct persistentCategoryProduct = authorService.getCategoryProductId(author.getCategoryProduct_id());
 			persistentCategoryProducts.add(persistentCategoryProduct);
 
-		}
-
-		user.setCategoryProducts(persistentCategoryProducts);
-		return userService.createUser(user);
+		}*/
+		return usersService.createUsers(user);
 
 	}
-	*/
+	
 	//Put
 	@PutMapping
 	public Users updateUsers(@RequestBody Users users) {
